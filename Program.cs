@@ -11,7 +11,7 @@ namespace Jogo_de_Corrida_de_Dados
             do
             {
                 Console.Clear();
-                ViewUtils.Header("Boas vindas ao Jogo de Corrida com Dados!");
+                ViewUtils.Header("Boas Vindas ao Jogo de Corrida com Dados");
                 ViewUtils.Paint("\n1 - Iniciar jogo", ConsoleColor.White);
                 ViewUtils.Paint("\nS - Sair", ConsoleColor.White);
                 ViewUtils.Paint("\n\nOpção: ", ConsoleColor.White);

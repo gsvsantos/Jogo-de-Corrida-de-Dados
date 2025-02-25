@@ -21,6 +21,7 @@ namespace Jogo_de_Corrida_de_Dados.Entities
                 ViewUtils.Paint("\n1 - Iniciar partida", ConsoleColor.White);
                 ViewUtils.Paint("\n2 - Histórico de partidas", ConsoleColor.White);
                 ViewUtils.Paint("\n3 - Configurações", ConsoleColor.White);
+                ViewUtils.Paint("\n4 - Sobre o jogo", ConsoleColor.White);
                 ViewUtils.Paint("\nS - Voltar", ConsoleColor.White);
                 ViewUtils.Paint("\n\nOpção: ", ConsoleColor.White);
                 string option = Console.ReadLine().Replace("s", "S");
@@ -37,46 +38,9 @@ namespace Jogo_de_Corrida_de_Dados.Entities
                         Console.Clear();
                         GameConfiguration();
                         break;
-                    case "S":
-                        menu = false;
+                    case "4":
                         Console.Clear();
-                        break;
-                    default:
-                        ViewUtils.Paint($"Acho que '{option}' não é uma opção...", ConsoleColor.Red);
-                        ViewUtils.PressEnter("TENTAR-NOVAMENTE");
-                        break;
-                }
-            } while (menu);
-        }
-        public static void GameConfiguration()
-        {
-            bool menu = true;
-            do
-            {
-                Console.Clear();
-                ViewUtils.Header("Configurações");
-                ViewUtils.Paint("\n1 - Adicionar CPUs", ConsoleColor.White);
-                ViewUtils.Paint("\n2 - Definir limite da pista de corrida", ConsoleColor.White);
-                ViewUtils.Paint("\nS - Voltar", ConsoleColor.White);
-                ViewUtils.Paint("\n\nOpção: ", ConsoleColor.White);
-                string option = Console.ReadLine().Replace("s", "S");
-                switch (option)
-                {
-                    case "1":
-                        Console.Clear();
-                        ViewUtils.Header("Adicionar CPU (padrão 1)");
-                        int quantity = Auxiliary.IntVerify("\nDeseja jogar contra quantos CPUs? ", "Isso não é um número..", "Precisa ser maior que 0!");
-                        cpu.Clear();
-                        for (int i = 1; i <= quantity; i++)
-                        {
-                            cpu.Add(new CPU(i));
-                        }
-                        cpu.Capacity = quantity;
-                        break;
-                    case "2":
-                        Console.Clear();
-                        ViewUtils.Header("Definir limite da pista de corrida (padrão 30)");
-                        trackLimit = Auxiliary.IntVerify("\nQual o novo limite? ", "O limite precisa de um número...", "O valor precisa ser positivo!");
+                        GameAbout();
                         break;
                     case "S":
                         menu = false;
@@ -165,96 +129,6 @@ namespace Jogo_de_Corrida_de_Dados.Entities
             trackLimit = 30;
             matchHistory.Add(new MatchHistory(winner, turnCount, cpuCount));
         }
-        public static void MatchResult(ref bool ongoing, bool isADraw, int turnCount, ref string winner, Player player)
-        {
-            foreach (CPU c in cpu)
-            {
-                if (c.Pos >= trackLimit)
-                {
-                    winners.Add(c);
-                }
-                if (winners.Count >= 1 && player.Pos >= trackLimit)
-                {
-                    isADraw = true;
-                }
-                else if (winners.Count > 1)
-                {
-                    isADraw = true;
-                }
-            }
-            if (isADraw == true)
-            {
-                winner = "Empate entre > ";
-                Console.Clear();
-                ViewUtils.Header("RESULTADO");
-                ViewUtils.Paint($"\nApós longas {turnCount} rodadas...\nA partida EMPATOU!!!\n", ConsoleColor.Cyan);
-                ViewUtils.Paint($"\nVencedores: ", ConsoleColor.Cyan);
-                if (player.Pos >= trackLimit)
-                {
-                    ViewUtils.Paint($"Jogador", ConsoleColor.White);
-                    winner += "Jogador";
-                }
-                foreach (CPU w in winners)
-                {
-                    ViewUtils.Paint($" - CPU #{w.cpuID}", ConsoleColor.White);
-                    winner += $" - CPU #{w.cpuID}";
-                }
-                Console.WriteLine();
-                ViewUtils.PressEnter("VOLTAR-MENU");
-                ongoing = false;
-            }
-            if (isADraw == false)
-            {
-                do
-                {
-                    foreach (CPU c in cpu)
-                    {
-                        if (c.Pos >= trackLimit)
-                        {
-                            Console.Clear();
-                            ViewUtils.Header("RESULTADO");
-                            ViewUtils.Paint($"\nApós longas {turnCount} rodadas...\nO vencedor é o CPU #{c.cpuID}!!!\n", ConsoleColor.Cyan);
-                            winner = $"CPU #{c.cpuID}";
-                            ViewUtils.PressEnter("VOLTAR-MENU");
-                            ongoing = false;
-                            break;
-                        }
-                    }
-                    if (player.Pos >= trackLimit)
-                    {
-                        Console.Clear();
-                        ViewUtils.Header("RESULTADO");
-                        ViewUtils.Paint($"\nApós longas {turnCount} rodadas...\nO vencedor é o Jogador!!!\n", ConsoleColor.Cyan);
-                        winner = "Jogador";
-                        ViewUtils.PressEnter("VOLTAR-MENU");
-                        player.Pos = 0;
-                        ongoing = false;
-                        break;
-                    }
-                } while (isADraw);
-            }
-        }
-        public static void MatchHistory()
-        {
-            Console.Clear();
-            ViewUtils.Header("Histórico de Partidas");
-            if (matchHistory.Count == 0)
-            {
-                ViewUtils.Paint("\nNenhuma partida encontrada.\n", ConsoleColor.Red);
-                ViewUtils.PressEnter("VOLTAR-MENU");
-                return;
-            }
-            foreach (MatchHistory m in matchHistory)
-            {
-                Console.WriteLine();
-                ViewUtils.Paint($"\nPartida #{m.MatchId}", ConsoleColor.White);
-                ViewUtils.Paint($"\nNúmero de jogadores: {++m.CPUCount}", ConsoleColor.White);
-                ViewUtils.Paint($"\nNúmero de rodadas: {m.Matches}", ConsoleColor.White);
-                ViewUtils.Paint($"\nVencedor: {m.Winner}", ConsoleColor.White);
-            }
-            Console.WriteLine();
-            ViewUtils.PressEnter("VOLTAR-MENU");
-        }
         public static void PlayerLuckyTest(int pos, int value, Player player)
         {
             if (value == 6)
@@ -342,6 +216,159 @@ namespace Jogo_de_Corrida_de_Dados.Entities
                     ViewUtils.Paint($"Voltou para a posição: {cpu.Pos}", ConsoleColor.White);
                     break;
             }
+        }
+        public static void MatchResult(ref bool ongoing, bool isADraw, int turnCount, ref string winner, Player player)
+        {
+            foreach (CPU c in cpu)
+            {
+                if (c.Pos >= trackLimit)
+                {
+                    winners.Add(c);
+                }
+                if (winners.Count >= 1 && player.Pos >= trackLimit)
+                {
+                    isADraw = true;
+                }
+                else if (winners.Count > 1)
+                {
+                    isADraw = true;
+                }
+            }
+            if (isADraw == true)
+            {
+                winner = "Empate entre: ";
+                Console.Clear();
+                ViewUtils.Header("RESULTADO");
+                ViewUtils.Paint($"\nApós longas {turnCount} rodadas...\nA partida EMPATOU!!!\n", ConsoleColor.Cyan);
+                ViewUtils.Paint($"\nVencedores: ", ConsoleColor.Cyan);
+                if (player.Pos >= trackLimit)
+                {
+                    ViewUtils.Paint($"| Jogador ", ConsoleColor.White);
+                    winner += "| Jogador ";
+                }
+                foreach (CPU w in winners)
+                {
+                    ViewUtils.Paint($"| CPU #{w.cpuID} |", ConsoleColor.White);
+                    winner += $"| CPU #{w.cpuID} |";
+                }
+                Console.WriteLine();
+                ViewUtils.PressEnter("VOLTAR-MENU");
+                ongoing = false;
+            }
+            if (isADraw == false)
+            {
+                do
+                {
+                    foreach (CPU c in cpu)
+                    {
+                        if (c.Pos >= trackLimit)
+                        {
+                            Console.Clear();
+                            ViewUtils.Header("RESULTADO");
+                            ViewUtils.Paint($"\nApós longas {turnCount} rodadas...\nO vencedor é o CPU #{c.cpuID}!!!\n", ConsoleColor.Cyan);
+                            winner = $"CPU #{c.cpuID}";
+                            ongoing = false;
+                            ViewUtils.PressEnter("VOLTAR-MENU");
+                            break;
+                        }
+                    }
+                    if (player.Pos >= trackLimit)
+                    {
+                        Console.Clear();
+                        ViewUtils.Header("RESULTADO");
+                        ViewUtils.Paint($"\nApós longas {turnCount} rodadas...\nO vencedor é o Jogador!!!\n", ConsoleColor.Cyan);
+                        winner = "Jogador";
+                        player.Pos = 0;
+                        ongoing = false;
+                        ViewUtils.PressEnter("VOLTAR-MENU");
+                        break;
+                    }
+                } while (isADraw);
+            }
+        }
+        public static void MatchHistory()
+        {
+            Console.Clear();
+            ViewUtils.Header("Histórico de Partidas");
+            if (matchHistory.Count == 0)
+            {
+                ViewUtils.Paint("\nNenhuma partida encontrada.\n", ConsoleColor.Red);
+                ViewUtils.PressEnter("VOLTAR-MENU");
+                return;
+            }
+            foreach (MatchHistory m in matchHistory)
+            {
+                Console.WriteLine();
+                ViewUtils.Paint($"\nPartida #{m.MatchId}", ConsoleColor.White);
+                ViewUtils.Paint($"\nNúmero de jogadores: {++m.CPUCount}", ConsoleColor.White);
+                ViewUtils.Paint($"\nNúmero de rodadas: {m.Matches}", ConsoleColor.White);
+                ViewUtils.Paint($"\nVencedor: {m.Winner}\n", ConsoleColor.White);
+            }
+
+            ViewUtils.PressEnter("VOLTAR-MENU");
+        }
+        public static void GameConfiguration()
+        {
+            bool menu = true;
+            do
+            {
+                Console.Clear();
+                ViewUtils.Header("Configurações");
+                ViewUtils.Paint("\n1 - Adicionar CPUs", ConsoleColor.White);
+                ViewUtils.Paint("\n2 - Definir limite da pista de corrida", ConsoleColor.White);
+                ViewUtils.Paint("\nS - Voltar", ConsoleColor.White);
+                ViewUtils.Paint("\n\nOpção: ", ConsoleColor.White);
+                string option = Console.ReadLine().Replace("s", "S");
+
+                switch (option)
+                {
+                    case "1":
+                        Console.Clear();
+                        ViewUtils.Header("Adicionar CPU (padrão 1)");
+                        int quantity = Auxiliary.IntVerify("\nDeseja jogar contra quantos CPUs? ", "Isso não é um número..", "Precisa ser maior que 0!");
+                        cpu.Clear();
+                        for (int i = 1; i <= quantity; i++)
+                        {
+                            cpu.Add(new CPU(i));
+                        }
+                        cpu.Capacity = quantity;
+                        break;
+                    case "2":
+                        Console.Clear();
+                        ViewUtils.Header("Definir limite da pista de corrida (padrão 30)");
+                        trackLimit = Auxiliary.IntVerify("\nQual o novo limite? ", "O limite precisa de um número...", "O valor precisa ser positivo!");
+                        break;
+                    case "S":
+                        menu = false;
+                        Console.Clear();
+                        break;
+                    default:
+                        ViewUtils.Paint($"Acho que '{option}' não é uma opção...", ConsoleColor.Red);
+                        ViewUtils.PressEnter("TENTAR-NOVAMENTE");
+                        break;
+                }
+            } while (menu);
+        }
+        public static void GameAbout()
+        {
+            Console.Clear();
+            ViewUtils.Header("Como Jogar", ConsoleColor.DarkYellow);
+            ViewUtils.Paint("\n1. Escolha iniciar uma nova partida no menu principal.", ConsoleColor.White);
+            ViewUtils.Paint("\n2. O jogo começa com você e os CPUs (ajustável) na linha de partida.", ConsoleColor.White);
+            ViewUtils.Paint("\n3. Na sua vez, o dado será jogado automaticamente para determinar quantas casas voce avançará.", ConsoleColor.White);
+            ViewUtils.Paint("\n4. As CPUs também jogam automaticamente.", ConsoleColor.White);
+            ViewUtils.Paint("\n5. Algumas casas possuem eventos especiais.", ConsoleColor.White);
+            ViewUtils.Paint("\n6. Continue através das rodadas até que alguém ultrapasse a linha de chegada.", ConsoleColor.White);
+            ViewUtils.Paint("\n7. Se houver empate, todos que chegaram na mesma rodada vencem.\n", ConsoleColor.White);
+
+            Console.WriteLine();
+            ViewUtils.Header("Regras Especiais", ConsoleColor.DarkYellow);
+            ViewUtils.Paint("\n- Se tirar 6 no dado, o dado irá rodar novamente.", ConsoleColor.White);
+            ViewUtils.Paint("\n- Casas especiais podem ajudar (skate, carona, checkpoint) ou atrapalhar (buraco, banana, checkpoint).", ConsoleColor.White);
+            ViewUtils.Paint("\n- O histórico das partidas é salvo, registrando vencedor(es) e número de turnos.\n", ConsoleColor.White);
+
+            ViewUtils.PressEnter("VOLTAR-MENU");
+
         }
     }
 }
