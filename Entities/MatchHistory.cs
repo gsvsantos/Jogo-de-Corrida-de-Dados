@@ -7,6 +7,7 @@
         public int MatchId { get; set; }
         public static int matchId = 0;
         public int CPUCount { get; set; }
+
         public MatchHistory() { }
         public MatchHistory(string winner, int matches, int cPUCount)
         {

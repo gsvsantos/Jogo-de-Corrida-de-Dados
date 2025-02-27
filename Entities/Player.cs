@@ -8,9 +8,9 @@ namespace Jogo_de_Corrida_de_Dados.Entities
         {
             base.RollDice();
             ViewUtils.Paint($"Dado caiu em: {Value}\n", ConsoleColor.White);
-            ViewUtils.Paint($"Posição anterior: {Pos}\n", ConsoleColor.White);
-            Pos += Value;
-            ViewUtils.Paint($"Posição atual: {Pos}", ConsoleColor.White);
+            ViewUtils.Paint($"Posição anterior: {Position}\n", ConsoleColor.White);
+            Position += Value;
+            ViewUtils.Paint($"Posição atual: {Position}", ConsoleColor.White);
         }
     }
 }

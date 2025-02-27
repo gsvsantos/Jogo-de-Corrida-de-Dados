@@ -3,7 +3,7 @@
     internal class Entity : Random
     {
 
-        public int Pos;
+        public int Position;
         public int Value { get; set; }
 
         public virtual void RollDice()

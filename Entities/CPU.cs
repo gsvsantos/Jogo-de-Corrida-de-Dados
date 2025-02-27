@@ -1,21 +1,21 @@
-﻿using Jogo_de_Corrida_de_Dados.Entities.Utils;
+﻿    using Jogo_de_Corrida_de_Dados.Entities.Utils;
 
-namespace Jogo_de_Corrida_de_Dados.Entities
-{
-    internal class CPU : Entity
+    namespace Jogo_de_Corrida_de_Dados.Entities
     {
-        public int cpuID;
-        public CPU(int value)
+        internal class CPU : Entity
         {
-            cpuID = value;
-        }
-        public override void RollDice()
-        {
-            base.RollDice();
-            ViewUtils.Paint($"Dado caiu em: {Value}\n", ConsoleColor.White);
-            ViewUtils.Paint($"Posição anterior: {Pos}\n", ConsoleColor.White);
-            Pos += Value;
-            ViewUtils.Paint($"Posição atual: {Pos}", ConsoleColor.White);
+            public int cpuID;
+            public CPU(int value)
+            {
+                cpuID = value;
+            }
+            public override void RollDice()
+            {
+                base.RollDice();
+                ViewUtils.Paint($"Dado caiu em: {Value}\n", ConsoleColor.White);
+                ViewUtils.Paint($"Posição anterior: {Position}\n", ConsoleColor.White);
+                Position += Value;
+                ViewUtils.Paint($"Posição atual: {Position}", ConsoleColor.White);
+            }
         }
     }
-}
