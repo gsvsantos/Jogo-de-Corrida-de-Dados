@@ -20,6 +20,10 @@
                     Paint("\n>> Pressione [enter] para voltar ao menu.", ConsoleColor.DarkYellow);
                     Console.ReadKey();
                     break;
+                case "CONTINUAR":
+                    Paint("\n>> Pressione [enter] para continuar.", ConsoleColor.DarkYellow);
+                    Console.ReadKey();
+                    break;
                 case "TENTAR-NOVAMENTE":
                     Paint("\n>> Pressione [enter] para tentar novamente.", ConsoleColor.DarkYellow);
                     Console.ReadKey();

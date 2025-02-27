@@ -430,12 +430,22 @@ namespace Jogo_de_Corrida_de_Dados.Entities
                         {
                             cpu.Add(new CPU(i));
                         }
+                        if (quantity > 1)
+                        {
+                            ViewUtils.Paint($"\nAgora você irá jogar contra {quantity} CPUs, boa sorte!\n", ConsoleColor.Yellow);
+                        }
+                        ViewUtils.PressEnter("CONTINUAR");
                         break;
                     case "2":
                         Console.Clear();
                         ViewUtils.Header($"Configuração da Pista");
                         ViewUtils.Paint($"\nTamanho atual da pista: {trackLimit} casas", ConsoleColor.White);
                         trackLimit = Auxiliary.IntVerify("\nEscolha um novo tamanho entre 10 e 250: ", "\nO limite precisa ser um número...\n", "\nO valor precisa ser maior que 10!\n", $"\nEsse número é muito grande... (Máximo aceitável: 250)\n", 10, 250);
+                        if (trackLimit > 30)
+                        {
+                            ViewUtils.Paint("\nAtenção: As casas especiais só funcionam até a posição 30!\n", ConsoleColor.Yellow);
+                        }
+                        ViewUtils.PressEnter("CONTINUAR");
                         break;
                     case "S":
                         menu = false;
