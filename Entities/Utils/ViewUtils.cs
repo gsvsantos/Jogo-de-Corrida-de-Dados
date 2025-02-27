@@ -16,6 +16,10 @@
         {
             switch (type)
             {
+                case "JOGAR-DADO":
+                    Paint("\n>> Pressione [enter] para jogar o dado.\n\n", ConsoleColor.Yellow);
+                    Console.ReadKey();
+                    break;
                 case "VOLTAR-MENU":
                     Paint("\n>> Pressione [enter] para voltar ao menu.", ConsoleColor.DarkYellow);
                     Console.ReadKey();

@@ -86,6 +86,7 @@ namespace Jogo_de_Corrida_de_Dados.Entities
                     ViewUtils.Header($"RODADA NÚMERO #{turnCount}");
                     Console.WriteLine();
                     ViewUtils.Header("Vez do Jogador", ConsoleColor.Blue);
+                    ViewUtils.PressEnter("JOGAR-DADO");
                     player.RollDice();
                     PlayerLuckyTest(player.Position, player.Value, player);
                     Console.WriteLine();
