@@ -73,7 +73,6 @@ namespace Jogo_de_Corrida_de_Dados.Entities
             bool hasAWinner = false;
             int cpuCount = 0;
             int turnCount = 0;
-
             string winner = "";
 
             do
