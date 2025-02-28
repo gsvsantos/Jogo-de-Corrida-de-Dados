@@ -10,11 +10,17 @@ namespace Jogo_de_Corrida_de_Dados.Entities.Utils
             do
             {
                 ViewUtils.Paint(prompt, ConsoleColor.White);
+                string input = Console.ReadLine();
+
+                if (input == null)
+                {
+                    ViewUtils.Paint($"\nAcho que isso não é um número...\n", ConsoleColor.Red);
+                    continue;
+                }
                 try
                 {
-                    string input = Console.ReadLine().Trim();
 
-                    if (input.Contains(',') || input.Contains('.') || input.Contains(' '))
+                    if (input.Trim().Contains(',') || input.Trim().Contains('.') || input.Trim().Contains(' '))
                     {
                         throw new AuxiliaryException("\nO valor não pode conter espaço ' ', ponto (.), ou vírgula (,)!\n");
                     }
