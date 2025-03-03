@@ -235,12 +235,10 @@ namespace Jogo_de_Corrida_de_Dados.Entities
             {
                 if (cpu.Count == 1)
                 {
-                    foreach (CPU c in cpu)
-                    {
-                        maxPosition = Math.Max(maxPosition, c.Position);
+                        maxPosition = Math.Max(maxPosition, cpu[0].Position);
                         maxPosition = Math.Max(maxPosition, player.Position);
 
-                        if (player.Position > c.Position && player.Position >= trackLimit)
+                        if (player.Position > cpu[0].Position && player.Position >= trackLimit)
                         {
                             Console.Clear();
                             ViewUtils.Header("RESULTADO");
@@ -250,22 +248,21 @@ namespace Jogo_de_Corrida_de_Dados.Entities
                             ViewUtils.PressEnter("VOLTAR-MENU");
                             break;
                         }
-                        if (c.Position > player.Position && c.Position >= trackLimit)
+                        if (cpu[0].Position > player.Position && cpu[0].Position >= trackLimit)
                         {
                             Console.Clear();
                             ViewUtils.Header("RESULTADO");
-                            ViewUtils.Paint($"\nApós longas {turnCount} rodadas e com a maior posição final ({c.Position})...\nO vencedor é o CPU #{c.cpuID}!!!\n", ConsoleColor.Cyan);
-                            winner = $"CPU #{c.cpuID}";
+                            ViewUtils.Paint($"\nApós longas {turnCount} rodadas e com a maior posição final ({cpu[0].Position})...\nO vencedor é o CPU #{cpu[0].cpuID}!!!\n", ConsoleColor.Cyan);
+                            winner = $"CPU #{cpu[0].cpuID}";
                             ongoing = false;
                             ViewUtils.PressEnter("VOLTAR-MENU");
                             break;
                         }
-                        if (c.Position == player.Position && c.Position >= trackLimit && player.Position >= trackLimit)
+                        if (cpu[0].Position == player.Position && cpu[0].Position >= trackLimit && player.Position >= trackLimit)
                         {
-                            winners.Add(c);
+                            winners.Add(cpu[0]);
                             wasADraw = true;
                         }
-                    }
                 }
                 if (cpu.Count > 1)
                 {
